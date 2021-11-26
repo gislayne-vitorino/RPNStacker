@@ -15,60 +15,60 @@ public class main {
 				String str = in.next();
 				tokenList = ListAdd(tokenList, str);
 			}
-						// acaba a leitura do arquivo
-			System.out.println(tokenList.toString()); //Printa a lista de Tokens
-			
-			for(int i = 0; i < tokenList.size(); i++){
+
+			// acaba a leitura do arquivo
+			System.out.println(tokenList.toString()); // Printa a lista de Tokens
+
+			for (int i = 0; i < tokenList.size(); i++) {
+
 				boolean isDigit = tokenList.get(i).type == TokenType.NUM;
 				String str = tokenList.get(i).lexeme;
-				
-				if(isDigit) {
+
+				if (isDigit) {
 					pilha.push(str);
 				} else {
-					int n2 = Integer.parseInt( pilha.pop().toString() );
-					int n1 =  Integer.parseInt(pilha.pop().toString()) ;
+					int n2 = Integer.parseInt(pilha.pop().toString());
+					int n1 = Integer.parseInt(pilha.pop().toString());
 					switch (str) {
-						case "+":
-							pilha.push(n1+n2);
-							break;
-						case "-":
-							pilha.push(n1-n2);
-							break;
-						case "*":
-							pilha.push(n1*n2);
-							break;
-						case "/":
-							pilha.push(n1/n2);
-							break;
+					case "+":
+						pilha.push(n1 + n2);
+						break;
+					case "-":
+						pilha.push(n1 - n2);
+						break;
+					case "*":
+						pilha.push(n1 * n2);
+						break;
+					case "/":
+						pilha.push(n1 / n2);
+						break;
 					}
 				}
 			}
-			
-		  
 
-			 System.out.println("Resultado é: " + pilha.pop());
+			System.out.println("Resultado Ã©: " + pilha.pop());
 		} catch (FileNotFoundException e) {
-			System.out.println("Arquivo não encontrado");
+			System.out.println("Arquivo nÃ£o encontrado");
 		}
 	}
 
-	
-	
-	
-	public static boolean isdigit(String str) { // Verifica se a string é um número
-		char chara = str.charAt(0); // pega o primeiro char da string
-		if (Character.toString(chara).matches("[0123456789]")) { // verifica se o char é um digito
+	public static boolean isdigit(char chara) { // Verifica se a string Ã© um nÃºmero
+		
+		if (Character.toString(chara).matches("[0123456789]")) { // verifica se o char Ã© um digito
 			return true;
 		}
 		return false;
 	}
 
-	
-	
 	public static ArrayList<Token> ListAdd(ArrayList<Token> tokenList, String str) throws Exception {
-		//Adiciona elementos na lista
-		
-		if (isdigit(str)) { 
+		boolean realdigit = true;
+		if (isdigit(str.charAt(0))) {  //Confere se a string Ã© composta apenas por digitos
+			for (int i = 0; i < str.length(); i++) {
+				realdigit = isdigit(str.charAt(i));
+				if (realdigit == false) {
+					throw new Exception("Error: Unexpected character: " + str);
+				}
+			}
 			tokenList.add(new Token(TokenType.NUM, str));
 		} else { // se for um operando
 			switch (str) {
